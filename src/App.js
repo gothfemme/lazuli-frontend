@@ -1,26 +1,44 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import Splash from './Splash';
+import Dashboard from './Dashboard';
+import Profile from './Profile';
+import Navbar from './Navbar'
+import { Auth, SplashRoute } from './Auth'
+
 
 class App extends Component {
+  state = {
+    loggedIn: !!(localStorage.jwt && localStorage.user)
+  }
+
+  logIn = () => {
+    this.setState({
+      loggedIn: true
+    });
+  }
+
+  logOut = () => {
+    localStorage.clear("jwt", "user")
+    this.setState({
+      loggedIn: false
+    });
+  }
+
   render() {
+    console.log(this.state.loggedIn)
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <div>
+          <Navbar loggedIn={this.state.loggedIn} logIn={this.logIn} logOut={this.logOut}/>
+          <div id="main">
+          <SplashRoute exact path="/" component={Splash} loggedIn={this.state.loggedIn} />
+          <Auth path="/dashboard" component={Dashboard} loggedIn={this.state.loggedIn} />
+          <Route path="/blog/:username" component={Profile}/>
+          </div>
+        </div>
+      </Router>
     );
   }
 }
