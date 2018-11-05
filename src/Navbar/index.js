@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, withRouter } from 'react-router-dom'
+import { NavLink, Link, withRouter } from 'react-router-dom'
 import Login from './Login';
 
 class Navbar extends Component {
@@ -35,9 +35,9 @@ class Navbar extends Component {
               height:"50px",
               borderRadius: "50%",
               cursor: "pointer"}}/>}
-              {!loggedIn && <a className="nav-item nav-link text-light" onClick={this.toggleDropdown} style={{cursor:"pointer"}}>Sign In</a>}
+              {!loggedIn && <a className="nav-item nav-link text-light" onClick={this.toggleDropdown} style={{cursor:"pointer", fontWeight:"bold"}}>Sign In</a>}
               {!loggedIn && <button className="btn btn-outline-light nav-item ml-4">Create Account</button>}
-              <div id="nav-dropdown">
+              <div id="nav-dropdown" className="shadow-sm">
 
                 {this.state.dropdown && loggedIn ?(
                   <div className="card dark-dropdown text-white">

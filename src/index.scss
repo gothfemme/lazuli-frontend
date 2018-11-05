@@ -1,7 +1,39 @@
+@import "~bootstrap/scss/_functions.scss";
+@import "~bootstrap/scss/_variables.scss";
+@import "~bootstrap/scss/mixins/_breakpoints.scss";
+
+html {
+  font-size: .7rem;
+}
+
+@include media-breakpoint-up(sm) {
+  html {
+    font-size: .75rem;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  html {
+    font-size: .75rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  html {
+    font-size: .83rem;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  html {
+    font-size: 1rem;
+  }
+}
+
 body {
   font-family: 'Raleway', 'Helvetica Neue', Arial, sans-serif;
   color:#555;
-   text-shadow: 1px 1px rgba(255,255,255,0.3);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
 }
 
 .btn {
@@ -13,6 +45,15 @@ body {
   display: block; /* For Firefox */
 }
 
+.dropzone {
+  position: relative;
+  width: 100%;
+  border-width: 2px;
+  border-color: rgb(102, 102, 102);
+  border-style: dashed;
+  border-radius: 5px;
+}
+
 .dark-dropdown {
   background-color: #303030;
     color: #eaeaea;
@@ -21,7 +62,19 @@ body {
 #login-form input {
   background-color: #202020;
   color: #eaeaea;
-  border: none;
+  border: 1px solid transparent;
+  border-top: none;
+  border-bottom: 1px solid #333;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.39)
+}
+
+#sign-up input {
+  background-color: #202020;
+  color: #eaeaea;
+  border: 1px solid transparent;
+  border-top: none;
+  border-bottom: 1px solid #333;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.39)
 }
 
 .edit-text-button {
@@ -35,7 +88,8 @@ body {
 }
 
 #splash-bottom {
-  background-color: #303030;
+  /* background-color: #303030; */
+  background: url('/images/skewed_print.png')
 }
 
 .splash-text {

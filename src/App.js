@@ -5,6 +5,7 @@ import Splash from './Splash';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
 import Navbar from './Navbar'
+import SignUp from './SignUp';
 import { Auth, SplashRoute } from './Auth'
 
 
@@ -35,6 +36,7 @@ class App extends Component {
           <div id="main">
           <SplashRoute exact path="/" component={Splash} loggedIn={this.state.loggedIn} />
           <Auth path="/dashboard" component={Dashboard} loggedIn={this.state.loggedIn} />
+          <SplashRoute path="/signup" component={SignUp}/>
           <Route path="/blog/:username" component={Profile}/>
           </div>
         </div>
