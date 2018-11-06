@@ -4,8 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Splash from './Splash';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
-import Navbar from './Navbar'
-import SignUp from './SignUp';
+import Navbar from './Navbar';
 import { Auth, SplashRoute } from './Auth'
 
 
@@ -28,15 +27,13 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.loggedIn)
     return (
       <Router>
         <div>
           <Navbar loggedIn={this.state.loggedIn} logIn={this.logIn} logOut={this.logOut}/>
           <div id="main">
-          <SplashRoute exact path="/" component={Splash} loggedIn={this.state.loggedIn} />
+          <SplashRoute exact path="/" component={Splash} logIn={this.logIn} loggedIn={this.state.loggedIn} />
           <Auth path="/dashboard" component={Dashboard} loggedIn={this.state.loggedIn} />
-          <SplashRoute path="/signup" component={SignUp}/>
           <Route path="/blog/:username" component={Profile}/>
           </div>
         </div>

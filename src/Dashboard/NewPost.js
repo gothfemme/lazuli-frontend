@@ -39,6 +39,13 @@ class NewPost extends Component {
     e.preventDefault()
     const data = { ...this.state.post, content: sanitizeHtml(this.state.post.content), user_id: JSON.parse(localStorage.user).id }
     this.props.handleSubmit(data)
+    this.setState({
+      post: {
+        title: "",
+        image: "",
+        content: ""
+      }
+    })
   }
 
   render() {
@@ -52,26 +59,20 @@ class NewPost extends Component {
           <form onSubmit={this.handleSubmit}
             className="collapse mb-3" id="new-post-form">
             <div>
-              <input name="title" onChange={this.handleChange} className="form-control form-control-lg" placeholder="Title..."/>
+              <input name="title" onChange={this.handleChange} className="form-control form-control-lg" placeholder="Title..." value={this.state.post.title}/>
               <div className="mt-2">
-                <div className="row justify-content-center">
-                  <div className="col-3">
+                <div className="row justify-content-between" style={{fontSize:"1.5rem", marginLeft:"0", marginRight:"0"}}>
                     <EditTextButton cmd="italic" />
                     <EditTextButton cmd="bold" />
                     <EditTextButton cmd="underline" />
                     <EditTextButton cmd="strikeThrough" />
-                  </div>
-                  <div className="col-3">
                     <EditTextButton cmd="insertUnorderedList" />
                     <EditTextButton cmd="insertOrderedList" />
                     <EditTextButton cmd="indent" />
                     <EditTextButton cmd="outdent" />
-                  </div>
-                  <div className="col-3">
                     <EditTextButton cmd="justifyLeft" />
                     <EditTextButton cmd="justifyCenter" />
                     <EditTextButton cmd="justifyRight" />
-                  </div>
                 </div>
           </div>
               <ContentEditable
@@ -83,7 +84,7 @@ class NewPost extends Component {
                 placeholder="Tell us your story..."
               />
               <div className="text-right">
-                <button className="btn btn-primary mt-2">Submit <i class="fas fa-paper-plane"></i></button>
+                <button className="btn btn-primary mt-2" data-toggle="collapse" href="#new-post-form">Submit <i className="fas fa-paper-plane"></i></button>
               </div>
 
             </div>

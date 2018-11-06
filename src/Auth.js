@@ -10,10 +10,10 @@ export const Auth = ({ component: Component, loggedIn, ...rest }) => (
 />
 )
 
-export const SplashRoute = ({ component: Component, loggedIn, ...rest }) => (
+export const SplashRoute = ({ component: Component, loggedIn, logIn, ...rest }) => (
 <Route {...rest} render={props => (
   !loggedIn ?
-  <Component {...props} />: <Redirect to='/dashboard'/>
+  <Component {...props} logIn={logIn} />: <Redirect to='/dashboard'/>
 )
 }
 />

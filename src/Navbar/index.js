@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Link, withRouter } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import Login from './Login';
 
 class Navbar extends Component {
@@ -14,7 +14,6 @@ class Navbar extends Component {
   }
 
   render() {
-    console.log(this.props)
     const loggedIn = this.props.loggedIn
     return (
       <nav className={this.props.location.pathname === "/" ? "navbar navbar-expand fixed-top navbar-dark" : "navbar navbar-expand fixed-top navbar-light navbar-custom"}>
@@ -30,20 +29,20 @@ class Navbar extends Component {
               </div>
             </form>}
             {loggedIn && <img src={"/images/" + JSON.parse(localStorage.user).avatar}
-            onClick={this.toggleDropdown} style={{objectFit: "cover",
+            onClick={this.toggleDropdown} alt="user avatar" style={{objectFit: "cover",
               width:"50px",
               height:"50px",
               borderRadius: "50%",
               cursor: "pointer"}}/>}
-              {!loggedIn && <a className="nav-item nav-link text-light" onClick={this.toggleDropdown} style={{cursor:"pointer", fontWeight:"bold"}}>Sign In</a>}
+              {!loggedIn && <button className="btn btn-link nav-item nav-link text-light" onClick={this.toggleDropdown} style={{cursor:"pointer", fontWeight:"bold"}}>Sign In</button>}
               {!loggedIn && <button className="btn btn-outline-light nav-item ml-4">Create Account</button>}
               <div id="nav-dropdown" className="shadow-sm">
 
                 {this.state.dropdown && loggedIn ?(
                   <div className="card dark-dropdown text-white">
-                    <ul className="list-group dark-dropdown list-group-flush">
-                      <li className="list-group-item dark-dropdown list-group-item-action">{JSON.parse(localStorage.user).username}</li>
-                      <li className="list-group-item dark-dropdown list-group-item-action" onClick={() => {
+                    <ul className="list-group dark-dropdown list-group-flush" id="user-menu">
+                      <li className="list-group-item dark-dropdown">{JSON.parse(localStorage.user).username}</li>
+                      <li className="list-group-item dark-dropdown" onClick={() => {
                         this.toggleDropdown()
                         this.props.logOut()
                       }}>Sign Out</li>

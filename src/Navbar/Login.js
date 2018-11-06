@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Api from '../Api'
 
 class Login extends Component {
   state = {
@@ -14,52 +15,29 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        auth: {
-          email: this.state.email,
-          password: this.state.password
-        }
-      })
+    const data = {
+      email: this.state.email,
+      password: this.state.password
     }
-    fetch('http://localhost:3000/user/token', options)
-      .then(r => r.json())
-      .then(r => {
-        localStorage.setItem("jwt", r.jwt)
-        this.setState({
-          email: "",
-          password: ""
-        })
-      })
-      .then(this.getCurrentUser)
+    Api.getToken(data)
       .catch(function(error) {
         return undefined
       })
+      .then(this.getCurrentUser)
   }
 
   getCurrentUser = () => {
-    const options = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + (localStorage.getItem("jwt"))
-      }
-    }
-    fetch('http://localhost:3000/users/current', options)
-      .then(r => r.json())
-      .then(user => {
-        localStorage.setItem("user", JSON.stringify(user))
-        this.props.logIn()
-        this.props.toggleDropdown()
-      })
+    console.log("hit getCurrentUser")
+    Api.getCurrentUser()
       .catch(function(error) {
         return undefined
       })
+      .then(() => {
+        this.props.logIn()
+        this.props.toggleDropdown()
+      })
   }
+
 
   render() {
     return (

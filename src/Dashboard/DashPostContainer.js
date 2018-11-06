@@ -11,11 +11,10 @@ class DashPostContainer extends Component {
   }
 
   displayPosts = () => {
-    return this.state.posts.map(post => <Post post={post}/>)
+    return this.state.posts.map(post => <Post key={post.id} post={post}/>)
   }
 
   handleSubmit = (data) => {
-    console.log(data)
     Api.createPost(data)
       .then(post => this.setState({
         posts: [post, ...this.state.posts]

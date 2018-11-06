@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
+import ReactTooltip from 'react-tooltip'
 
 class PostInteractions extends Component {
 
   render() {
-    console.log(this.props.post)
     return (
       <div className="col-2">
+      <ReactTooltip
+        effect="solid"/>
         <div className="nav flex-column float-right text-center mt-2 text-muted" style={{fontSize: "1.75rem"}}>
-            <img src={"/images/" + this.props.post.user.avatar}
+            <Link to={"/blog/" + this.props.post.user.username}><img src={"/images/" + this.props.post.user.avatar} data-tip={this.props.post.user.username}
             className="nav-item" alt={this.props.post.username + "avatar"} style={{objectFit: "cover",
             width:"50px",
             height:"50px",
-            borderRadius: "50%"}}/>
-            <i className="fas fa-heart nav-item mt-3"></i>
-            <i className="fas fa-retweet nav-item mt-3"></i>
-            <i className="fas fa-reply nav-item mt-3"></i>
+            borderRadius: "50%",
+          cursor:"pointer"}} /></Link>
         </div>
       </div>
     );

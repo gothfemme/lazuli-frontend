@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import Dropzone from 'react-dropzone'
+import Api from '../Api';
 
 class SignUp extends Component {
   state = {
     email: "",
     username: "",
-    avatar: "",
     password: "",
     password_confirmation: ""
   }
@@ -18,6 +17,27 @@ class SignUp extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
+    const data = {
+      user: {
+        ...this.state
+      }
+    }
+    const tokenData = {
+      email: this.state.email,
+      password: this.state.password
+    }
+    Api.createUser(data)
+      .catch(function(error) {
+        return undefined
+      })
+      .then(() => {
+        Api.getToken(tokenData)
+          .catch(function(error) {
+            return undefined
+          })
+          .then(() => Api.getCurrentUser(tokenData))
+          .then(this.props.logIn)
+      })
   }
 
   handleFile = (e) => {
@@ -30,7 +50,8 @@ class SignUp extends Component {
 
   render() {
     return (
-      <div className="container-fluid px-4 pt-5 pb-2" style={{transition:"all 500ms ease-in"}}>
+      <div className="container px-4 pb-2" style={{transition:"all 500ms ease-in", paddingTop:"7%"}}>
+      <div className="jumbotron" id="sign-up-back">
         <h2>Create an account.</h2>
         <form onSubmit={this.handleSubmit} id="sign-up">
           <div className="form-row">
@@ -48,18 +69,6 @@ class SignUp extends Component {
           </div>
 
           <div className="form-group">
-            <label htmlFor="dropzone">Avatar</label>
-            <Dropzone
-              accept="image/jpg, image/jpeg, image/png"
-              multiple={false}
-              className="dropzone text-center"
-              id="dropzone"
-              >
-              <h3 className="my-5"><i class="fas fa-image mr-3"></i>Drag and drop image here, or click to browse.</h3>
-            </Dropzone>
-          </div>
-
-          <div className="form-group">
             <label htmlFor="password">Password</label>
             <input type="password" id="password" name="password" className="form-control" onChange={this.handleChange} value={this.state.password}></input>
 
@@ -69,10 +78,12 @@ class SignUp extends Component {
             <input type="password" id="password_confirmation" name="password_confirmation" className="form-control" onChange={this.handleChange} value={this.state.password_confirmation}></input>
           </div>
 
+          <div className="text-right">
 
-          <button type="submit" className="btn btn-primary mt-1">Submit</button>
+            <button type="submit" className="btn btn-primary mt-1">Submit</button>
+          </div>
         </form>
-
+      </div>
       </div>
     );
   }

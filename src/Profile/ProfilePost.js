@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import PostInteractions from './PostInteractions';
 import Api from '../Api';
 
 class Post extends Component {
-
   state = {
     likeCount: this.props.post.likes.length,
     liked: !!(this.props.post.likes.find(like => like.user_id === JSON.parse(localStorage.user).id))
@@ -15,6 +13,10 @@ class Post extends Component {
     }
   }
 
+  // liked = () => {
+  //   return !!(this.props.post.likes.find(like => like.user_id === JSON.parse(localStorage.user).id))
+  // }
+
   toggleLike = () => {
     this.state.liked ? Api.unlike({ post_id: this.props.post.id }) : Api.like({ post_id: this.props.post.id })
 
@@ -25,12 +27,9 @@ class Post extends Component {
   }
 
   render() {
-      let reblogged = false
-      return (
-          <div className="row">
-        <PostInteractions post={this.props.post}/>
-        <div className="col-10">
-          <div className="card mb-4 shadow-sm">
+    let reblogged = false
+    return (
+      <div className="card mb-4 shadow-sm">
             {this.imageFormatter()}
             <div className="card-body">
               <h4 className="card-title" style={{fontWeight: "bold"}}>{this.props.post.title}</h4>
@@ -45,8 +44,6 @@ class Post extends Component {
               </span>
           </div>
         </div>
-      </div> <
-      /div>
     );
   }
 

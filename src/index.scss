@@ -33,7 +33,7 @@ html {
 body {
   font-family: 'Raleway', 'Helvetica Neue', Arial, sans-serif;
   color:#555;
-  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+  // text-shadow: 0 1px 1px rgba(0,0,0,0.4);
 }
 
 .btn {
@@ -54,9 +54,24 @@ body {
   border-radius: 5px;
 }
 
+#sign-up-back {
+  background: #eeeeee0a;
+  border-bottom: 1px solid #333;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.39)
+}
+
+
 .dark-dropdown {
   background-color: #303030;
-    color: #eaeaea;
+  color: #eaeaea;
+}
+
+#user-menu li {
+  cursor: pointer
+}
+
+#user-menu li:hover {
+  background: $primary
 }
 
 #login-form input {
@@ -89,7 +104,8 @@ body {
 
 #splash-bottom {
   /* background-color: #303030; */
-  background: url('/images/skewed_print.png')
+  background: url('/images/skewed_print.png');
+   background-attachment: fixed;
 }
 
 .splash-text {
