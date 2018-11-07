@@ -23,7 +23,7 @@ class DashPostContainer extends Component {
 
   render() {
     return (
-      <div className="col-8">
+      <div className="col-7 offset-1">
         <div className="pt-3">
           <NewPost handleSubmit={this.handleSubmit}/>
           {this.state.isLoading ? <Spinner /> : this.displayPosts()}
@@ -33,11 +33,16 @@ class DashPostContainer extends Component {
   }
 
   componentDidMount() {
+    this.fetchDash()
+  }
+
+  fetchDash() {
     Api.getPosts()
-      .then(posts => {
+      .then(resp => {
+        console.log(resp)
         this.setState({
           isLoading: false,
-          posts: posts
+          posts: resp.posts
         });
       })
       .catch(error => {
@@ -46,6 +51,33 @@ class DashPostContainer extends Component {
         });
         return undefined
       })
+  }
+
+  searchSite() {
+    Api.searchSite(this.props.searchTerm)
+      .then(resp => {
+        this.setState({
+          isLoading: false,
+          posts: resp.posts
+        });
+      })
+      .catch(error => {
+        this.setState({
+          error: true
+        });
+        return undefined
+      })
+  }
+
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props) {
+      this.setState({
+        isLoading: true
+      }, () => {
+        this.props.searchTerm ? this.searchSite() : this.fetchDash()
+      });
+    }
   }
 
 }

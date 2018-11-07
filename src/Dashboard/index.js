@@ -4,16 +4,11 @@ import DashSidebar from './DashSidebar'
 import DashPostContainer from './DashPostContainer';
 
 class Dashboard extends Component {
-  state = {
-    posts: [],
-    hiddenScrollButton: true
-  }
-
   render() {
     return (
-      <div className="container-fluid">
+      <div className="container-fluid pt-3">
         <div className="row mb-5">
-          <DashPostContainer />
+          <DashPostContainer searchTerm={this.props.searchTerm} />
           <DashSidebar />
 
         </div>

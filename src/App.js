@@ -10,7 +10,8 @@ import { Auth, SplashRoute } from './Auth'
 
 class App extends Component {
   state = {
-    loggedIn: !!(localStorage.jwt && localStorage.user)
+    loggedIn: !!(localStorage.jwt && localStorage.user),
+    searchTerm: ""
   }
 
   logIn = () => {
@@ -26,14 +27,20 @@ class App extends Component {
     });
   }
 
+  handleSearch = (e) => {
+    this.setState({
+      searchTerm: e.target.value
+    });
+  }
+
   render() {
     return (
       <Router>
         <div>
-          <Navbar loggedIn={this.state.loggedIn} logIn={this.logIn} logOut={this.logOut}/>
+          <Navbar loggedIn={this.state.loggedIn} searchTerm={this.state.searchTerm} handleSearch={this.handleSearch} logIn={this.logIn} logOut={this.logOut}/>
           <div id="main">
           <SplashRoute exact path="/" component={Splash} logIn={this.logIn} loggedIn={this.state.loggedIn} />
-          <Auth path="/dashboard" component={Dashboard} loggedIn={this.state.loggedIn} />
+          <Auth path="/dashboard" component={Dashboard} searchTerm={this.state.searchTerm} loggedIn={this.state.loggedIn} />
           <Route path="/blog/:username" component={Profile}/>
           </div>
         </div>

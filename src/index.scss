@@ -94,12 +94,13 @@ body {
 
 .edit-text-button {
   all: unset;
-  padding: 0 7px;
+  padding: 0 20px;
   background: none;
 }
 
 .edit-text-button:hover {
-  background: #dedede
+  background: $primary;
+  color: white;
 }
 
 #splash-bottom {
@@ -131,6 +132,7 @@ body {
 .sidebar {
   height: 100%;
   right: 0;
+  top: 5rem;
   position: fixed;
 }
 
@@ -140,7 +142,12 @@ body {
 
 .navbar-brand {
 font-family: 'Bree Serif', serif;
-      font-size: 1.75rem;
+font-size: 1.75rem;
+font-weight: 700;
+}
+
+.navbar-brand:hover {
+  color:#fff
 }
 
 #main {

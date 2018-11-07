@@ -4,7 +4,6 @@ import SignUp from '../SignUp';
 class Splash extends Component {
   state = {
     images: ["https://images.unsplash.com/photo-1484991227236-56123ab16e60?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cbc13fda8b39ec152c0ebf23bb0a5932&auto=format&fit=crop&w=2550&q=80", "https://images.unsplash.com/photo-1519070543065-ac1764985512?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=832b931997e9f544454a77499e00ef0a&auto=format&fit=crop&w=2316&q=80", "https://images.unsplash.com/photo-1466500419182-8602dc906b51?ixlib=rb-0.3.5&s=bb26969baadc7c1478d340b272383cfc&auto=format&fit=crop&w=1950&q=80", "https://images.unsplash.com/photo-1504194921103-f8b80cadd5e4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=794691cc020e7d15205ebc98a675117a&auto=format&fit=crop&w=1950&q=80", "https://images.unsplash.com/photo-1446329813274-7c9036bd9a1f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=af9c4cfbc245991849b8cacabacd34ff&auto=format&fit=crop&w=1950&q=80"],
-    current: 0,
     height: "25%",
     visible: false
   }
@@ -13,16 +12,6 @@ class Splash extends Component {
     this.setState({
       height: (this.state.height === "25%" ? "91%" : "25%"),
       visible: !this.state.visible
-    });
-  }
-
-  componentDidMount() {
-    setInterval(this.mover, 10000)
-  }
-
-  mover = () => {
-    this.setState({ ...this.state,
-      current: (this.state.current < this.state.images.length - 1 ? this.state.current + 1 : 0)
     });
   }
 

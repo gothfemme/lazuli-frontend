@@ -34,14 +34,15 @@ class Login extends Component {
       })
       .then(() => {
         this.props.logIn()
-        this.props.toggleDropdown()
       })
   }
 
 
   render() {
     return (
-      <form className="card p-4 dark-dropdown text-white shadow-sm"
+      <div className="dropdown-menu bg-dark text-white shadow-sm">
+      <form className="px-4 py-2"
+        style={{width:"250px"}}
         onSubmit={this.handleSubmit} id="login-form"
         >
         <div className="form-group">
@@ -57,6 +58,7 @@ class Login extends Component {
 
         <button className="btn btn-primary" type="submit">Login</button>
       </form>
+    </div>
     );
   }
 

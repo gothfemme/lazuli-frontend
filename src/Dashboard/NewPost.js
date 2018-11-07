@@ -60,8 +60,8 @@ class NewPost extends Component {
             className="collapse mb-3" id="new-post-form">
             <div>
               <input name="title" onChange={this.handleChange} className="form-control form-control-lg" placeholder="Title..." value={this.state.post.title}/>
-              <div className="mt-2">
-                <div className="row justify-content-between" style={{fontSize:"1.5rem", marginLeft:"0", marginRight:"0"}}>
+              <div className="">
+                <div className="row justify-content-between" style={{fontSize:"1.25rem", marginLeft:"0", marginRight:"0"}}>
                     <EditTextButton cmd="italic" />
                     <EditTextButton cmd="bold" />
                     <EditTextButton cmd="underline" />
@@ -84,7 +84,7 @@ class NewPost extends Component {
                 placeholder="Tell us your story..."
               />
               <div className="text-right">
-                <button className="btn btn-primary mt-2" data-toggle="collapse" href="#new-post-form">Submit <i className="fas fa-paper-plane"></i></button>
+                <button className="btn btn-primary mt-2" data-toggle="collapse" href="#new-post-form"><i className="fas fa-paper-plane mr-2"></i>Submit</button>
               </div>
 
             </div>

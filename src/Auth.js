@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom'
 
-export const Auth = ({ component: Component, loggedIn, ...rest }) => (
+export const Auth = ({ component: Component, loggedIn, searchTerm, ...rest }) => (
 <Route {...rest} render={props => (
   loggedIn ?
-  <Component {...props} />: <Redirect to='/'/>
+  <Component {...props} searchTerm={searchTerm}/>: <Redirect to='/'/>
 )
 }
 />

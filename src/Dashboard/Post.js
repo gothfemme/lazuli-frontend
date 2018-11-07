@@ -30,7 +30,7 @@ class Post extends Component {
           <div className="row">
         <PostInteractions post={this.props.post}/>
         <div className="col-10">
-          <div className="card mb-4 shadow-sm">
+          <div className="card mb-4">
             {this.imageFormatter()}
             <div className="card-body">
               <h4 className="card-title" style={{fontWeight: "bold"}}>{this.props.post.title}</h4>

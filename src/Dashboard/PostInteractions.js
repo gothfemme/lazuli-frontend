@@ -11,9 +11,9 @@ class PostInteractions extends Component {
         effect="solid"/>
         <div className="nav flex-column float-right text-center mt-2 text-muted" style={{fontSize: "1.75rem"}}>
             <Link to={"/blog/" + this.props.post.user.username}><img src={"/images/" + this.props.post.user.avatar} data-tip={this.props.post.user.username}
-            className="nav-item" alt={this.props.post.username + "avatar"} style={{objectFit: "cover",
-            width:"50px",
-            height:"50px",
+            className="nav-item border" alt={this.props.post.username + "avatar"} style={{objectFit: "cover",
+            width:"5rem",
+            height:"5rem",
             borderRadius: "50%",
           cursor:"pointer"}} /></Link>
         </div>

@@ -29,7 +29,7 @@ class Post extends Component {
   render() {
     let reblogged = false
     return (
-      <div className="card mb-4 shadow-sm">
+      <div className="card mb-4">
             {this.imageFormatter()}
             <div className="card-body">
               <h4 className="card-title" style={{fontWeight: "bold"}}>{this.props.post.title}</h4>

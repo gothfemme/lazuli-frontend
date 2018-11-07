@@ -47,6 +47,17 @@ const Api = {
       .then(r => r.json())
   },
 
+  searchSite: (searchTerm) => {
+    return fetch(`http://localhost:3000/posts?search=${searchTerm}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + (localStorage.jwt)
+        }
+      })
+      .then(r => r.json())
+  },
+
   createPost: (data) => {
     return fetch('http://localhost:3000/posts', {
         method: "POST",
@@ -64,6 +75,26 @@ const Api = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
+    })
+  },
+
+  follow: (data) => {
+    return fetch(`http://localhost:3000/users/${data}/follow`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + (localStorage.jwt)
+      }
+    })
+  },
+
+  unfollow: (data) => {
+    return fetch(`http://localhost:3000/users/${data}/unfollow`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + (localStorage.jwt)
+      }
     })
   },
 

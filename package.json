@@ -11,14 +11,12 @@
     "react-dropzone": "^7.0.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
-    "react-scroll-up-button": "^1.6.4",
-    "react-scrolltop-button": "^0.1.5",
     "react-tooltip": "^3.9.0",
     "react-transition-group": "^2.5.0",
     "sanitize-html": "^1.19.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
