@@ -58,6 +58,17 @@ const Api = {
       .then(r => r.json())
   },
 
+  searchUsers: (searchTerm) => {
+    return fetch(`http://localhost:3000/users?search=${searchTerm}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + (localStorage.jwt)
+        }
+      })
+      .then(r => r.json())
+  },
+
   createPost: (data) => {
     return fetch('http://localhost:3000/posts', {
         method: "POST",
@@ -73,7 +84,9 @@ const Api = {
   createUser: (data) => {
     return fetch('http://localhost:3000/users', {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(data)
     })
   },
