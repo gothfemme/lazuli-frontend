@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
-import ProfilePost from './ProfilePost';
+// import ProfilePost from './ProfilePost';
 import Spinner from '../Components/Spinner'
 import Api from '../Api';
+import Post from '../Dashboard/Post';
 
 class Profile extends Component {
   state = {
     user: {},
+    posts: [],
     isLoading: true,
     hover: false
   }
 
   getPosts = () => {
-    return this.state.user.posts.map(post => {
-      return <ProfilePost key={post.id} post={post}/>
+    return this.state.posts.map(post => {
+      return <Post key={post.id} post={post}/>
     })
   }
 
@@ -62,11 +64,12 @@ class Profile extends Component {
 
   componentDidMount() {
     Api.getUser(this.props.match.params.username)
-      .then(user => {
+      .then(obj => {
         this.setState({
-          user: user,
+          user: obj.user,
+          posts: obj.posts,
           isLoading: false,
-          isFollowing: !!user.follower_ids.find(id => id === parseInt(JSON.parse(localStorage.user).id))
+          isFollowing: !!obj.user.follower_ids.find(id => id === parseInt(JSON.parse(localStorage.user).id))
         });
       })
   }
