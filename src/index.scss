@@ -94,7 +94,7 @@ body {
 
 .edit-text-button {
   all: unset;
-  padding: 0 20px;
+  padding: 0 1rem;
   background: none;
 }
 
@@ -244,12 +244,13 @@ font-weight: 700;
 }
 .fade-enter-active {
   opacity: 1;
-  transition: opacity 500ms ease-in;
+  transition: opacity 500ms ease-in 1s;
 }
 .fade-exit {
   opacity: 1;
 }
 .fade-exit-active {
   opacity: 0.01;
-  transition: opacity 500ms ease-in;
+    transition-delay: 500ms;
+  transition: opacity 500ms ease-in 1s;
 }

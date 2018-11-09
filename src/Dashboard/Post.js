@@ -8,49 +8,56 @@ class Post extends Component {
   state = {
     likeCount: this.props.post.original_post.like_count,
     reblogCount: this.props.post.original_post.reblog_count,
-    liked: !!(this.props.post.original_post.likes.includes(JSON.parse(localStorage.user).id)),
     rebloggedByMe: !!(this.props.post.is_reblog && this.props.post.user.username === JSON.parse(localStorage.user).username),
-    rebloggedByMeInPast: !!(this.props.post.original_post.reblogs.includes(JSON.parse(localStorage.user).id))
   }
 
   imageFormatter = () => {
     if (this.props.post.original_post.image) {
-      return <img className="card-img-top" src={this.props.post.original_post.image} alt="" />
+      return <img className="card-img" style={{borderRadius:"0"}} src={this.props.post.original_post.image} alt="" />
     }
   }
 
   toggleLike = () => {
-    this.state.liked ? Api.unlike({ post_id: this.props.post.original_post.id }) : Api.like({ post_id: this.props.post.original_post.id })
-
-    this.setState({
-      likeCount: (this.state.liked ? this.state.likeCount - 1 : this.state.likeCount + 1),
-      liked: !this.state.liked
-    });
+    this.props.likedByMeInPast ? Api.unlike({ post_id: this.props.post.original_post.id }).then(() => this.props.removeLike(this.props.post)) : Api.like({ post_id: this.props.post.original_post.id }).then(() => this.props.addLike(this.props.post))
   }
 
   toggleReblog = () => {
-    this.state.rebloggedByMeInPast ? Api.unreblog({ post_id: this.props.post.original_post.id }).then(() => this.state.rebloggedByMe ? this.props.removeReblog(this.props.post) : this.props.cleanUpReblogs(this.props.post)) : Api.reblog({ post_id: this.props.post.original_post.id }).then(r => r.json()).then(post => this.props.addReblog(post))
-    this.setState({
-      reblogCount: (this.state.rebloggedByMeInPast ? this.state.reblogCount - 1 : this.state.reblogCount + 1),
-      rebloggedByMeInPast: !this.state.rebloggedByMeInPast
-    });
-
+    if (this.props.rebloggedByMeInPast) {
+      Api.unreblog({ post_id: this.props.post.original_post.id }).then(() => {
+        if (this.state.rebloggedByMe && this.props.onDashboard) {
+          this.props.removeReblog(this.props.post)
+        } else {
+          this.props.cleanUpReblogs(this.props.post)
+          this.props.onDashboard && this.props.removeOtherReblogs(this.props.post)
+        }
+      })
+    } else {
+      Api.reblog({ post_id: this.props.post.original_post.id }).then(r => r.json()).then(post => this.props.addReblog(post))
+    }
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const likeCheck = !!(this.props.post.original_post.reblogs.includes(JSON.parse(localStorage.user).id))
-  //   if (likeCheck !== this.state.rebloggedByMeInPast) {
-  //     this.setState({
-  //       rebloggedByMeInPast: likeCheck
-  //     });
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.rebloggedByMeInPast !== prevProps.rebloggedByMeInPast) {
+      this.props.rebloggedByMeInPast ? this.setState({
+        reblogCount: this.state.reblogCount + 1
+      }) : this.setState({
+        reblogCount: this.state.reblogCount - 1
+      });
+    }
+
+    if (this.props.likedByMeInPast !== prevProps.likedByMeInPast) {
+      this.props.likedByMeInPast ? this.setState({
+        likeCount: this.state.likeCount + 1
+      }) : this.setState({
+        likeCount: this.state.likeCount - 1
+      });
+    }
+  }
 
   render() {
-      const rebloggedByMeInPast = !!(this.props.post.original_post.reblogs.includes(parseInt(JSON.parse(localStorage.user).id)))
-      console.log(rebloggedByMeInPast)
-      return (
-          <div className="row" style={{transition:"all 500ms ease-in"}}>
+    const rebloggedByMeInPast = this.props.rebloggedByMeInPast
+    return (
+      <div className="row" style={{transition:"all 500ms ease-in"}}>
         <div className="col-2 pr-0">
 
           <div className="nav flex-column float-right text-center mt-2 text-muted" style={{fontSize: "1.75rem"}}>
@@ -69,8 +76,8 @@ class Post extends Component {
           <div className="card mb-4">
               <div className="card-header text-muted bg-white">
                 <span className="mr-2">
-                {this.props.post.user.username}</span>
-                {this.props.post.is_reblog && <span className="mr-2"><i className="fas fa-retweet mr-2"></i> {this.props.post.original_post.author.username}</span>}
+                <Link to={"/blog/" + this.props.post.user.username} style={{color:"inherit", textDecoration:"none"}} >{this.props.post.user.username}</Link></span>
+                {this.props.post.is_reblog && <span className="mr-2"><i className="fas fa-retweet mr-2"></i> <Link to={"/blog/" + this.props.post.original_post.author.username} style={{color:"inherit", textDecoration:"none"}} >{this.props.post.original_post.author.username}</Link></span>}
 
 
           </div>
@@ -84,11 +91,11 @@ class Post extends Component {
               <span className="float-right">
                 <span className="pr-3"><i className="fas fa-comment nav-item"></i></span>
                 <span className="pr-3"><i className={"fas fa-retweet nav-item mr-1" + (rebloggedByMeInPast ? " text-success" : '')} style={{cursor:"pointer"}} onClick={this.toggleReblog}></i> {this.state.reblogCount}</span>
-                <span><i onClick={this.toggleLike} className={this.state.liked ? "fas fa-heart nav-item mr-1 text-danger" : "far fa-heart nav-item mr-1"} style={{cursor:"pointer"}}></i> {this.state.likeCount}</span>
+                <span><i onClick={this.toggleLike} className={this.props.likedByMeInPast ? "fas fa-heart nav-item mr-1 text-danger" : "far fa-heart nav-item mr-1"} style={{cursor:"pointer"}}></i> {this.state.likeCount}</span>
               </span>
           </div>
         </div>
-      </div> < /div>
+      </div> </div>
     );
   }
 

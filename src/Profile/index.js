@@ -6,15 +6,62 @@ import Post from '../Dashboard/Post';
 
 class Profile extends Component {
   state = {
+    current_user: {},
     user: {},
     posts: [],
     isLoading: true,
     hover: false
   }
 
+  addReblog = post => {
+    this.setState({
+      current_user: { ...this.state.current_user, reblogs: [post.original_post.id, ...this.state.current_user.reblogs] }
+    });
+  }
+
+  cleanUpReblogs = (post) => {
+    this.setState({
+      current_user: { ...this.state.current_user,
+        reblogs: this.state.current_user.reblogs.filter(post_id => post_id !== post.original_post.id)
+      }
+    });
+    return true
+  }
+
+  removeReblog = post => {
+    this.setState({
+      posts: this.state.posts.filter(dashPost => dashPost !== post)
+    }, () => this.cleanUpReblogs(post));
+  }
+
+  addLike = post => {
+    this.setState({
+      current_user: { ...this.state.current_user, likes: [post.original_post.id, ...this.state.current_user.likes] }
+    });
+  }
+
+  removeLike = (post) => {
+    this.setState({
+      current_user: { ...this.state.current_user,
+        likes: this.state.current_user.likes.filter(post_id => post_id !== post.original_post.id)
+      }
+    });
+  }
+
   getPosts = () => {
     return this.state.posts.map(post => {
-      return <Post key={post.id} post={post}/>
+      return <Post
+        likedByMeInPast={!!(this.state.current_user.likes.includes(post.original_post.id))}
+        cleanUpReblogs={this.cleanUpReblogs}
+        rebloggedByMeInPast={!!(this.state.current_user.reblogs.includes(post.original_post.id))}
+        addLike={this.addLike}
+        removeLike={this.removeLike}
+        addReblog={this.addReblog}
+        removeReblog={this.removeReblog}
+        onDashboard={false}
+        key={post.id}
+        post={post}
+      />
     })
   }
 
@@ -62,10 +109,26 @@ class Profile extends Component {
       </div>));
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.match !== this.props.match) {
+      Api.getUser(this.props.match.params.username)
+        .then(obj => {
+          this.setState({
+            current_user: obj.current_user,
+            user: obj.user,
+            posts: obj.posts,
+            isLoading: false,
+            isFollowing: !!obj.user.follower_ids.find(id => id === parseInt(JSON.parse(localStorage.user).id))
+          });
+        })
+    }
+  }
+
   componentDidMount() {
     Api.getUser(this.props.match.params.username)
       .then(obj => {
         this.setState({
+          current_user: obj.current_user,
           user: obj.user,
           posts: obj.posts,
           isLoading: false,

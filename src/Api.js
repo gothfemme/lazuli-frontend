@@ -156,7 +156,13 @@ const Api = {
   },
 
   getUser: (data) => {
-    return fetch(`http://localhost:3000/users/${data}`)
+    return fetch(`http://localhost:3000/users/${data}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + (localStorage.jwt)
+        }
+      })
       .then(r => r.json())
   }
 }

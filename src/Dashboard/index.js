@@ -16,7 +16,6 @@ class Dashboard extends Component {
   fetchDash() {
     Api.getPosts()
       .then(resp => {
-        console.log(resp)
         this.setState({
           isLoading: false,
           user: resp.current_user,
@@ -56,26 +55,63 @@ class Dashboard extends Component {
 
   addReblog = post => {
     this.setState({
+      user: { ...this.state.user, reblogs: [post.original_post.id, ...this.state.user.reblogs] },
       posts: [post, ...this.state.posts]
     });
   }
 
   cleanUpReblogs = (post) => {
     this.setState({
-      posts: this.state.posts.map(currentPost => {
-        if (currentPost.original_post === post.original_post) {
-          return currentPost.original_post.reblogs.filter(x => x !== this.state.user.id)
-        } else {
-          return currentPost
-        }
-      })
+      user: { ...this.state.user,
+        reblogs: this.state.user.reblogs.filter(post_id => post_id !== post.original_post.id)
+      }
     });
+    return true
+  }
+
+  addLike = post => {
+    this.setState({
+      user: { ...this.state.user, likes: [post.original_post.id, ...this.state.user.likes] }
+    });
+  }
+
+  removeLike = (post) => {
+    this.setState({
+      user: { ...this.state.user,
+        likes: this.state.user.likes.filter(post_id => post_id !== post.original_post.id)
+      }
+    });
+  }
+
+  removeOtherReblogs = (post) => {
+    this.setState({
+      posts: this.state.posts.filter(dashPost => !(dashPost.is_reblog && dashPost.user.id === this.state.user.id && dashPost.original_post.id === post.original_post.id))
+    });
+    return true
   }
 
   removeReblog = post => {
     this.setState({
       posts: this.state.posts.filter(dashPost => dashPost !== post)
     }, () => this.cleanUpReblogs(post));
+  }
+
+  follow = user => {
+    this.setState({
+      user: { ...this.state.user,
+        following_ids: [...this.state.user.following_ids, user.id]
+      }
+    });
+    Api.follow(user.username)
+  }
+
+  unfollow = user => {
+    this.setState({
+      user: { ...this.state.user,
+        following_ids: this.state.user.following_ids.filter(id => id !== user.id)
+      }
+    });
+    Api.unfollow(user.username)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -98,8 +134,9 @@ class Dashboard extends Component {
         <div className="row mb-5">
           {this.state.isLoading ? <Spinner /> :
             <React.Fragment>
-                          <CSSTransition timeout={1000} classNames="fade"><DashPostContainer cleanUpReblogs={this.cleanUpReblogs} addReblog={this.addReblog} removeReblog={this.removeReblog} handleSubmit={this.handleSubmit} posts={this.state.posts} searchTerm={this.props.searchTerm} /></CSSTransition>
-              <DashSidebar user={this.state.user}/>
+                          <CSSTransition timeout={1000} classNames="fade">
+                            <DashPostContainer addLike={this.addLike} removeLike={this.removeLike} removeOtherReblogs={this.removeOtherReblogs} user={this.state.user} cleanUpReblogs={this.cleanUpReblogs} addReblog={this.addReblog} removeReblog={this.removeReblog} handleSubmit={this.handleSubmit} posts={this.state.posts} searchTerm={this.props.searchTerm} /></CSSTransition>
+              <DashSidebar user={this.state.user} follow={this.follow} unfollow={this.unfollow}/>
             </React.Fragment>
         }
 

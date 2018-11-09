@@ -41,8 +41,8 @@ class App extends Component {
           <Navbar loggedIn={this.state.loggedIn} searchTerm={this.state.searchTerm} handleSearch={this.handleSearch} logIn={this.logIn} logOut={this.logOut}/>
           <div id="main">
           <SplashRoute exact path="/" component={Splash} logIn={this.logIn} loggedIn={this.state.loggedIn} />
-          <Auth path="/dashboard" component={Dashboard} searchTerm={this.state.searchTerm} loggedIn={this.state.loggedIn} />
-          <Route path="/blog/:username" component={Profile}/>
+          <Auth exact path="/dashboard" component={Dashboard} searchTerm={this.state.searchTerm} loggedIn={this.state.loggedIn} />
+          <Auth exact path="/blog/:username" loggedIn={this.state.loggedIn} component={Profile}/>
           </div>
         </div>
       </Router>

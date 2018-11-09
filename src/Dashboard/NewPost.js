@@ -101,7 +101,7 @@ class NewPost extends Component {
             </div>
               <input name="title" onChange={this.handleChange} className="form-control form-control-lg" placeholder="Title..." value={this.state.post.title}/>
               <div className="">
-                <div className="row justify-content-between" style={{fontSize:"1.25rem", marginLeft:"0", marginRight:"0"}}>
+                <div className="row justify-content-between" style={{fontSize:"1.25rem", height:"3rem", marginLeft:"0", marginRight:"0"}}>
                     <EditTextButton cmd="italic" />
                     <EditTextButton cmd="bold" />
                     <EditTextButton cmd="underline" />
@@ -124,7 +124,7 @@ class NewPost extends Component {
                 placeholder="Tell us your story..."
               />
               <div className="text-right">
-                <button className="btn btn-primary mt-2" data-toggle="collapse" href="#new-post-form"><i className="fas fa-paper-plane mr-2"></i>Submit</button>
+                <button className="btn btn-primary mt-3" data-toggle="collapse" href="#new-post-form"><i className="fas fa-paper-plane mr-2"></i>Submit</button>
               </div>
 
             </div>

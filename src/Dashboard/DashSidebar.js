@@ -5,6 +5,7 @@ import Api from '../Api';
 class DashSidebar extends Component {
   state = {
     searchTerm: "",
+    isSearching: false,
     userSearchResults: []
   }
 
@@ -13,6 +14,7 @@ class DashSidebar extends Component {
     Api.searchUsers(this.state.searchTerm)
       .then(users => {
         this.setState({
+          isSearching: true,
           userSearchResults: users
         });
       })
@@ -25,10 +27,19 @@ class DashSidebar extends Component {
   }
 
   getUserList = () => {
-    return this.state.userSearchResults.map(user => <UserSearchResult key={user.id} user={user} />)
+    return this.state.userSearchResults.map(user => <UserSearchResult follow={this.props.follow} unfollow={this.props.unfollow} key={user.id} current_user={this.props.user} user={user} />)
+  }
+
+  noUsersFound = () => {
+    return (
+      <div className="border-top" style={{height:"100%", margin:"auto", textAlign:"center"}}>
+      <h4 style={{marginTop:"25vh"}}>No results found.</h4>
+      </div>
+    )
   }
 
   render() {
+    let noResults = !!(!this.state.userSearchResults.length && this.state.isSearching)
     return (
       <div className="col-3 offset-1 sidebar border-left px-0">
         <div className="border-bottom">
@@ -40,21 +51,33 @@ class DashSidebar extends Component {
         <div className="border-bottom px-3 py-3 text-center">
           <h5 className="my-auto"><i className="fas fa-heart pr-3"></i>Liked posts</h5>
         </div>
-        <div className="">
+        <div>
           <form onSubmit={this.handleSubmit} className="px-3 py-3" id="user-search">
             <label htmlFor="find-user">Find Users</label>
             <div className="input-group mb-2">
-            <input className="form-control" id="find-user" onChange={this.handleChange} placeholder="Search by username..." value={this.state.searchTerm} autoComplete="off" ></input>
+            <input className="form-control" id="find-user" onChange={this.handleChange} placeholder="Search by username..." style={{paddingRight:"1.5rem"}} value={this.state.searchTerm} autoComplete="off" ></input>
             <div className="input-group-append">
               <button className="btn btn-primary" type="submit" id="button-addon2"><i className="fas fa-users"></i></button>
             </div>
           </div>
+          {this.state.isSearching && <i onClick={() => this.setState({
+            isSearching: false,
+            searchTerm: "",
+            userSearchResults: []
+          })} className="fas fa-times-circle" style={{ position: "relative",
+            margin: "0",
+            zIndex: "1000",
+            opacity: ".7",
+            float:"right",
+            left: "-3.5rem",
+            cursor:"pointer",
+            top: "-2.2rem"}}></i>}
 
         </form>
           <div id="user-search-results">
-            <ul className="list-group list-group-flush border-top">
-              {this.getUserList()}
-            </ul>
+
+              {noResults ? this.noUsersFound() : (<ul className="list-group list-group-flush border-top">{this.getUserList()}</ul>)}
+
           </div>
         </div>
       </div>
