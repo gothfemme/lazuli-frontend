@@ -5,6 +5,7 @@ import Splash from './Splash';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
 import Navbar from './Navbar';
+import config from './firebaseconfig';
 import { Auth, SplashRoute } from './Auth'
 
 

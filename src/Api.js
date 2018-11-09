@@ -37,7 +37,7 @@ const Api = {
   },
 
   getPosts: () => {
-    return fetch('http://localhost:3000/posts', {
+    return fetch('http://localhost:3000/timeline', {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -108,6 +108,28 @@ const Api = {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + (localStorage.jwt)
       }
+    })
+  },
+
+  reblog: (data) => {
+    return fetch('http://localhost:3000/reblogs', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + (localStorage.jwt)
+      },
+      body: JSON.stringify(data)
+    })
+  },
+
+  unreblog: (data) => {
+    return fetch(`http://localhost:3000/reblogs/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + (localStorage.jwt)
+      },
+      body: JSON.stringify(data)
     })
   },
 

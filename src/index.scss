@@ -202,3 +202,54 @@ font-weight: 700;
 #dash-head-toggle:hover {
   text-decoration: none;
 }
+
+.tinyspin {
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+.tinyspin div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  margin: 6px;
+  border: 6px solid #aaa;
+  border-radius: 50%;
+  animation: tinyspin 1.75s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #aaa transparent transparent transparent;
+}
+.tinyspin div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.tinyspin div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.tinyspin div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes tinyspin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.fade-enter {
+  opacity: 0.01;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 500ms ease-in;
+}

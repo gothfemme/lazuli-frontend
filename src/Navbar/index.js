@@ -21,7 +21,7 @@ class Navbar extends Component {
     }
     return (
       <nav className={this.props.location.pathname === "/" ? "navbar navbar-expand fixed-top navbar-dark" : "navbar navbar-expand fixed-top navbar-light border-bottom navbar-custom"} style={{height: "5rem"}}>
-          <Link to={ loggedIn ? "/dashboard" : "/"} className="navbar-brand" style={{color:"#007bff"}}>Laz·u·li</Link>
+          <Link to={ loggedIn ? "/dashboard" : "/"} className="navbar-brand" style={this.props.location.pathname === "/" ? {color:"#FFF"} : {color:"#007bff"}}>Laz·u·li</Link>
           {loggedIn && <form onSubmit={e => e.preventDefault()} className="form-inline my-2 my-lg-0 pl-2">
             <div>
               <input className="form-control mr-sm-2 border" type="search" style={{backgroundColor:"rgba(214, 214, 214, 0.267)", borderRadius: "2em", width:"30vw",paddingLeft: "20px", paddingRight:"35px"

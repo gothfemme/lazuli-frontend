@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 import ContentEditable from "react-contenteditable";
 import sanitizeHtml from "sanitize-html";
 import EditTextButton from './EditTextButton';
+import TinySpinner from '../Components/TinySpinner';
+import firebase from "firebase";
+import FileUploader from "react-firebase-file-uploader";
 
 class NewPost extends Component {
   state = {
     post: {
       title: "",
       image: "",
-      content: ""
+      content: "",
     },
+    isUploading: false,
+    progress: 0,
+    imageURL: "",
     toggle: false
   }
 
@@ -37,7 +43,7 @@ class NewPost extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const data = { ...this.state.post, content: sanitizeHtml(this.state.post.content), user_id: JSON.parse(localStorage.user).id }
+    const data = { ...this.state.post, content: sanitizeHtml(this.state.post.content), user_id: JSON.parse(localStorage.user).id, image: this.state.imageURL }
     this.props.handleSubmit(data)
     this.setState({
       post: {
@@ -47,6 +53,22 @@ class NewPost extends Component {
       }
     })
   }
+
+  handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
+  handleProgress = progress => this.setState({ progress });
+  handleUploadError = error => {
+    this.setState({ isUploading: false });
+    console.error(error);
+  };
+  handleUploadSuccess = filename => {
+    this.setState({ post: { ...this.state.post, image: filename }, progress: 100, isUploading: false });
+    firebase
+      .storage()
+      .ref("images")
+      .child(filename)
+      .getDownloadURL()
+      .then(url => this.setState({ imageURL: url }));
+  };
 
   render() {
     return (<React.Fragment>
@@ -59,6 +81,24 @@ class NewPost extends Component {
           <form onSubmit={this.handleSubmit}
             className="collapse mb-3" id="new-post-form">
             <div>
+              <div className="card mb-3" style={{minHeight:"15rem"}}>
+              <label className="text-center text-muted" style={{margin:"auto"}}>
+
+                {this.state.isUploading ? <TinySpinner /> : (this.state.imageURL ? <img className="card-img" src={this.state.imageURL} /> : <h4 style={{margin:"auto"}}><i className="far fa-image mr-2"></i>Upload an image</h4>)}
+
+                <FileUploader
+                  hidden
+                  accept="image/*"
+                  name="image"
+                  randomizeFilename
+                  storageRef={firebase.storage().ref("images")}
+                  onUploadStart={this.handleUploadStart}
+                  onUploadError={this.handleUploadError}
+                  onUploadSuccess={this.handleUploadSuccess}
+                  onProgress={this.handleProgress}
+                />
+              </label>
+            </div>
               <input name="title" onChange={this.handleChange} className="form-control form-control-lg" placeholder="Title..." value={this.state.post.title}/>
               <div className="">
                 <div className="row justify-content-between" style={{fontSize:"1.25rem", marginLeft:"0", marginRight:"0"}}>
@@ -76,7 +116,7 @@ class NewPost extends Component {
                 </div>
           </div>
               <ContentEditable
-                className="form-control form-control"
+                className="form-control"
                 style={{height:"25vh", overflowY: "scroll", wordWrap:"break-word"}}
                 name="content"
                 html={this.state.post.content}
