@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 import Splash from './Splash';
 import Dashboard from './Dashboard';
@@ -8,6 +8,15 @@ import Navbar from './Navbar';
 import UserSettings from './UserSettings';
 import config from './firebaseconfig';
 import { Auth, SplashRoute } from './Auth'
+
+const NoMatch = () => {
+  return (
+    <div className="container mt-5">
+    <h1>No match found.</h1>
+    <Link to="/">Go back.</Link>
+    </div>
+  )
+}
 
 
 class App extends Component {
@@ -41,10 +50,13 @@ class App extends Component {
         <div>
           <Navbar loggedIn={this.state.loggedIn} searchTerm={this.state.searchTerm} handleSearch={this.handleSearch} logIn={this.logIn} logOut={this.logOut}/>
           <div id="main">
-          <SplashRoute exact path="/" component={Splash} logIn={this.logIn} loggedIn={this.state.loggedIn} />
-          <Auth exact path="/dashboard" component={Dashboard} searchTerm={this.state.searchTerm} loggedIn={this.state.loggedIn} />
-          <Auth exact path="/blog/:username" loggedIn={this.state.loggedIn} component={Profile}/>
-          <Auth exact path="/settings" loggedIn={this.state.loggedIn} component={UserSettings} />
+            <Switch>
+              <SplashRoute exact path="/" component={Splash} logIn={this.logIn} loggedIn={this.state.loggedIn} />
+              <Auth path="/dashboard" component={Dashboard} searchTerm={this.state.searchTerm} loggedIn={this.state.loggedIn} />
+              <Auth path="/blog/:username" loggedIn={this.state.loggedIn} component={Profile}/>
+              <Auth path="/settings" loggedIn={this.state.loggedIn} component={UserSettings} />
+              <Route component={NoMatch} />
+            </Switch>
           </div>
         </div>
       </Router>

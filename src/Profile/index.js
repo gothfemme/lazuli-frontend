@@ -58,6 +58,7 @@ class Profile extends Component {
   getPosts = () => {
     return this.state.posts.map(post => {
       return <Post
+      currentUser={this.state.current_user}
       deletePost={this.deletePost}
         likedByMeInPast={!!(this.state.current_user.likes.includes(post.original_post.id))}
         cleanUpReblogs={this.cleanUpReblogs}
@@ -101,20 +102,27 @@ class Profile extends Component {
     return (this.state.isLoading ? <Spinner /> : (<div className="container-fluid">
         <div className="row pt-5 mb-5" >
           <div className="col-3 mt-5 text-center" style={{position:"fixed"}}>
-            <img src={"/images/" + this.state.user.avatar} alt={this.state.user.username + "avatar"} className="border" style={{objectFit: "cover",
-            width:"150px",
-            height:"150px",
+            <img src={"/images/" + this.state.user.avatar} alt={this.state.user.username + "avatar"} className="border mb-2" style={{objectFit: "cover",
+            width:"10rem",
+            height:"10rem",
             borderRadius: "50%"}}
           />
           <h3>{this.state.user.username}</h3>
-          <h5>Following: {this.state.user.following_count} | Followers: {this.state.user.follow_count}</h5>
+          <p>{this.state.user.bio}</p>
+
+          <div className="row px-3 mb-3">
+            <div className="text-center col border-right py-0" style={{marginBottom:"0"}}><p className="mb-0"><span className="font-weight-bold mr-2">{this.state.user.following_count}</span>Following</p>
+          </div>
+            <div className="text-center col py-0" style={{marginBottom:"0"}}><p className="mb-0"><span className="font-weight-bold mr-2">{this.state.user.follow_count}</span>Followers</p>
+          </div>
+          </div>
           {this.followButton()}
           </div>
           <div className="col-7 offset-3">
             {this.getPosts()}
           </div>
         </div>
-      </div>));
+        </div>));
   }
 
   componentDidUpdate(prevProps, prevState) {

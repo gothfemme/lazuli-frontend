@@ -46,6 +46,18 @@ const Api = {
     })
   },
 
+  createComment: data => {
+    return fetch(`http://localhost:3000/posts/${data.post_id}/comments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + (localStorage.jwt)
+        },
+        body: JSON.stringify(data)
+      })
+      .then(r => r.json())
+  },
+
   getPosts: () => {
     return fetch('http://localhost:3000/timeline', {
         method: "GET",
@@ -55,6 +67,38 @@ const Api = {
         }
       })
       .then(r => r.json())
+  },
+
+  getComments: data => {
+    return fetch(`http://localhost:3000/posts/${data}/comments`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + (localStorage.jwt)
+        }
+      })
+      .then(r => r.json())
+  },
+
+  commentLike: (postId, commentId) => {
+    return fetch(`http://localhost:3000/posts/${postId}/comments/${commentId}/like`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + (localStorage.jwt)
+        }
+      })
+      .then(r => r.json())
+  },
+
+  commentUnlike: (postId, commentId) => {
+    return fetch(`http://localhost:3000/posts/${postId}/comments/${commentId}/unlike`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + (localStorage.jwt)
+      }
+    })
   },
 
   searchSite: (searchTerm) => {

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
 import timeAgo from '../Components/TimeAgo';
 import Api from '../Api';
+import Comment from './Comment';
+import CommentContainer from './CommentContainer';
 
 class Post extends Component {
 
@@ -9,6 +12,7 @@ class Post extends Component {
     likeCount: this.props.post.original_post.like_count,
     reblogCount: this.props.post.original_post.reblog_count,
     rebloggedByMe: !!(this.props.post.is_reblog && this.props.post.user.username === JSON.parse(localStorage.user).username),
+    commentsToggle: false
   }
 
   imageFormatter = () => {
@@ -19,6 +23,12 @@ class Post extends Component {
 
   toggleLike = () => {
     this.props.likedByMeInPast ? Api.unlike({ post_id: this.props.post.original_post.id }).then(() => this.props.removeLike(this.props.post)) : Api.like({ post_id: this.props.post.original_post.id }).then(() => this.props.addLike(this.props.post))
+  }
+
+  toggleComments = () => {
+    this.setState({
+      commentsToggle: !this.state.commentsToggle
+    });
   }
 
   toggleReblog = () => {
@@ -55,9 +65,9 @@ class Post extends Component {
   }
 
   render() {
-    const rebloggedByMeInPast = this.props.rebloggedByMeInPast
-    return (
-      <div className="row" style={{transition:"all 500ms ease-in"}}>
+      const rebloggedByMeInPast = this.props.rebloggedByMeInPast
+      return (
+          <div className="row" style={{transition:"all 500ms ease-in"}}>
         <div className="col-2 pr-0">
 
           <div className="nav flex-column float-right text-center mt-2 text-muted" style={{fontSize: "1.75rem"}}>
@@ -73,14 +83,14 @@ class Post extends Component {
           </div>
         </div>
         <div className="col-10">
-          <div className="card mb-4">
+          <div className="card mb-4" style={{transition:"height 500ms ease"}}>
               <div className="card-header text-muted bg-white">
                 <span className="mr-2">
                 <Link to={"/blog/" + this.props.post.user.username} style={{color:"inherit", textDecoration:"none"}} >{this.props.post.user.username}</Link></span>
                 {this.props.post.is_reblog && <span className="mr-2"><i className="fas fa-retweet mr-2"></i> <Link to={"/blog/" + this.props.post.original_post.author.username} style={{color:"inherit", textDecoration:"none"}} >{this.props.post.original_post.author.username}</Link></span>}
 
                 {this.props.isAuthor && <div className="dropdown" style={{float:"right"}}>
-                  <span data-toggle="dropdown" style={{cursor:"pointer"}}><i class="fas fa-ellipsis-h"></i></span>
+                  <span data-toggle="dropdown" style={{cursor:"pointer"}}><i className="fas fa-ellipsis-h"></i></span>
                   <div className="dropdown-menu dropdown-menu-right">
                     <div className="dropdown-item" style={{cursor:"pointer"}} >Edit</div>
                     <div onClick={() => this.props.deletePost(this.props.post)} className="dropdown-item" style={{cursor:"pointer"}} >Delete</div>
@@ -95,16 +105,24 @@ class Post extends Component {
               <h4 className="card-title" style={{fontWeight: "bold"}}>{this.props.post.original_post.title}</h4>
               <p className="card-text" dangerouslySetInnerHTML={{__html: this.props.post.original_post.content}}></p>
             </div>
-            <div className="card-footer text-muted">
+
+
+              {this.state.commentsToggle ? <CommentContainer currentUser={this.props.currentUser} post={this.props.post.original_post}/> : null}
+
+
+
+            <div className="card-footer text-muted" style={{zIndex: '200'}}>
               <span>{timeAgo(this.props.post.created_at)}</span>
               <span className="float-right">
-                <span className="pr-3"><i className="fas fa-comment nav-item"></i></span>
+                <span onClick={this.toggleComments} style={{cursor:"pointer"}} className="pr-3">
+                  {this.state.commentsToggle ? <i className="fas fa-comments text-primary"></i> : <i className="far fa-comments"></i>}
+                </span>
                 <span className="pr-3"><i className={"fas fa-retweet nav-item mr-1" + (rebloggedByMeInPast ? " text-success" : '')} style={{cursor:"pointer"}} onClick={this.toggleReblog}></i> {this.state.reblogCount}</span>
                 <span><i onClick={this.toggleLike} className={this.props.likedByMeInPast ? "fas fa-heart nav-item mr-1 text-danger" : "far fa-heart nav-item mr-1"} style={{cursor:"pointer"}}></i> {this.state.likeCount}</span>
               </span>
           </div>
         </div>
-      </div> </div>
+      </div> < /div>
     );
   }
 

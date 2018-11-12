@@ -159,6 +159,10 @@ font-weight: 700;
   padding-top: 70px;
 }
 
+.comment-like:hover {
+  color: $danger;
+}
+
 .scroll-top-btn {
   all:unset;
    position: fixed; /* Fixed/sticky position */
@@ -258,4 +262,34 @@ font-weight: 700;
   opacity: 0.01;
     transition-delay: 500ms;
   transition: opacity 500ms ease-in 1s;
+}
+
+
+.slide-appear {
+  opacity    : 0;
+  transition : opacity .7s ease-in;
+}
+
+.slide-appear.slide-appear-active {
+  opacity : 1;
+}
+
+// componentがCSSTransitionGroup Component以下に新たに追加されたとき
+.slide-enter {
+  max-height : 0;
+  transition : all .3s ease-in;
+}
+
+.slide-enter.slide-enter-active {
+  max-height : 1000px;
+}
+
+// componentがCSSTransitionGroup Component以下から削除されたとき
+.slide-leave {
+  max-height : 1000px;
+  transition : all .3s ease-out;
+}
+
+.slide-leave.slide-leave-active {
+  max-height : 0;
 }

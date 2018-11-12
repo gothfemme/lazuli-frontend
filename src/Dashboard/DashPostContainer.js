@@ -16,6 +16,7 @@ class DashPostContainer extends Component {
               >
                 <Post
                   onDashboard={true}
+                  currentUser={this.props.user}
                   deletePost={this.props.deletePost}
                   addLike={this.props.addLike}
                   removeLike={this.props.removeLike}
