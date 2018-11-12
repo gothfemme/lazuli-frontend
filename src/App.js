@@ -5,6 +5,7 @@ import Splash from './Splash';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
 import Navbar from './Navbar';
+import UserSettings from './UserSettings';
 import config from './firebaseconfig';
 import { Auth, SplashRoute } from './Auth'
 
@@ -43,6 +44,7 @@ class App extends Component {
           <SplashRoute exact path="/" component={Splash} logIn={this.logIn} loggedIn={this.state.loggedIn} />
           <Auth exact path="/dashboard" component={Dashboard} searchTerm={this.state.searchTerm} loggedIn={this.state.loggedIn} />
           <Auth exact path="/blog/:username" loggedIn={this.state.loggedIn} component={Profile}/>
+          <Auth exact path="/settings" loggedIn={this.state.loggedIn} component={UserSettings} />
           </div>
         </div>
       </Router>

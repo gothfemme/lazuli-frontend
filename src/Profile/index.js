@@ -19,6 +19,13 @@ class Profile extends Component {
     });
   }
 
+  deletePost = post => {
+    this.setState({
+      posts: this.state.posts.filter(dashPost => dashPost.original_post.id !== post.original_post.id)
+    })
+    Api.deletePost(post.original_post.id)
+  }
+
   cleanUpReblogs = (post) => {
     this.setState({
       current_user: { ...this.state.current_user,
@@ -51,6 +58,7 @@ class Profile extends Component {
   getPosts = () => {
     return this.state.posts.map(post => {
       return <Post
+      deletePost={this.deletePost}
         likedByMeInPast={!!(this.state.current_user.likes.includes(post.original_post.id))}
         cleanUpReblogs={this.cleanUpReblogs}
         rebloggedByMeInPast={!!(this.state.current_user.reblogs.includes(post.original_post.id))}

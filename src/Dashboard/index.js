@@ -37,6 +37,13 @@ class Dashboard extends Component {
       }))
   }
 
+  deletePost = post => {
+    this.setState({
+      posts: this.state.posts.filter(dashPost => dashPost.original_post.id !== post.original_post.id)
+    })
+    Api.deletePost(post.original_post.id)
+  }
+
   searchSite() {
     Api.searchSite(this.props.searchTerm)
       .then(resp => {
@@ -135,7 +142,9 @@ class Dashboard extends Component {
           {this.state.isLoading ? <Spinner /> :
             <React.Fragment>
                           <CSSTransition timeout={1000} classNames="fade">
-                            <DashPostContainer addLike={this.addLike} removeLike={this.removeLike} removeOtherReblogs={this.removeOtherReblogs} user={this.state.user} cleanUpReblogs={this.cleanUpReblogs} addReblog={this.addReblog} removeReblog={this.removeReblog} handleSubmit={this.handleSubmit} posts={this.state.posts} searchTerm={this.props.searchTerm} /></CSSTransition>
+                            <DashPostContainer
+                              deletePost={this.deletePost}
+                              addLike={this.addLike} removeLike={this.removeLike} removeOtherReblogs={this.removeOtherReblogs} user={this.state.user} cleanUpReblogs={this.cleanUpReblogs} addReblog={this.addReblog} removeReblog={this.removeReblog} handleSubmit={this.handleSubmit} posts={this.state.posts} searchTerm={this.props.searchTerm} /></CSSTransition>
               <DashSidebar user={this.state.user} follow={this.follow} unfollow={this.unfollow}/>
             </React.Fragment>
         }

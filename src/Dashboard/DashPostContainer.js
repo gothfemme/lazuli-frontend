@@ -16,8 +16,10 @@ class DashPostContainer extends Component {
               >
                 <Post
                   onDashboard={true}
+                  deletePost={this.props.deletePost}
                   addLike={this.props.addLike}
                   removeLike={this.props.removeLike}
+                  isAuthor={post.original_post.author.id === this.props.user.id}
                   likedByMeInPast={!!(this.props.user.likes.includes(post.original_post.id))}
                   rebloggedByMeInPast={!!(this.props.user.reblogs.includes(post.original_post.id))}
                   removeOtherReblogs={this.props.removeOtherReblogs} cleanUpReblogs={this.props.cleanUpReblogs} addReblog={this.props.addReblog} removeReblog={this.props.removeReblog} key={post.id} post={post}

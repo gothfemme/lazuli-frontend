@@ -36,6 +36,16 @@ const Api = {
       })
   },
 
+  deletePost: data => {
+    return fetch(`http://localhost:3000/posts/${data}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + (localStorage.jwt)
+      }
+    })
+  },
+
   getPosts: () => {
     return fetch('http://localhost:3000/timeline', {
         method: "GET",

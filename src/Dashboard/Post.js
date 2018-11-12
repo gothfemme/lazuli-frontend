@@ -79,6 +79,15 @@ class Post extends Component {
                 <Link to={"/blog/" + this.props.post.user.username} style={{color:"inherit", textDecoration:"none"}} >{this.props.post.user.username}</Link></span>
                 {this.props.post.is_reblog && <span className="mr-2"><i className="fas fa-retweet mr-2"></i> <Link to={"/blog/" + this.props.post.original_post.author.username} style={{color:"inherit", textDecoration:"none"}} >{this.props.post.original_post.author.username}</Link></span>}
 
+                {this.props.isAuthor && <div className="dropdown" style={{float:"right"}}>
+                  <span data-toggle="dropdown" style={{cursor:"pointer"}}><i class="fas fa-ellipsis-h"></i></span>
+                  <div className="dropdown-menu dropdown-menu-right">
+                    <div className="dropdown-item" style={{cursor:"pointer"}} >Edit</div>
+                    <div onClick={() => this.props.deletePost(this.props.post)} className="dropdown-item" style={{cursor:"pointer"}} >Delete</div>
+
+                  </div>
+                </div>}
+
 
           </div>
               {this.imageFormatter()}
