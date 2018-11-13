@@ -21,6 +21,17 @@ const Api = {
       })
   },
 
+  getNotifications: () => {
+    return fetch('http://localhost:3000/notifications', {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + (localStorage.jwt)
+        }
+      })
+      .then(r => r.json())
+  },
+
   getCurrentUser: () => {
     const options = {
       method: "GET",
