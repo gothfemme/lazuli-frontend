@@ -22,7 +22,14 @@ const NoMatch = () => {
 class App extends Component {
   state = {
     loggedIn: !!(localStorage.jwt && localStorage.user),
-    searchTerm: ""
+    searchTerm: "",
+    visibleSplash: false
+  }
+
+  handleVisibleSplash = e => {
+    this.setState({
+      visibleSplash: !this.state.visibleSplash
+    });
   }
 
   logIn = () => {
@@ -48,10 +55,10 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navbar loggedIn={this.state.loggedIn} searchTerm={this.state.searchTerm} handleSearch={this.handleSearch} logIn={this.logIn} logOut={this.logOut}/>
+          <Navbar handleVisibleSplash={this.handleVisibleSplash} loggedIn={this.state.loggedIn} searchTerm={this.state.searchTerm} handleSearch={this.handleSearch} logIn={this.logIn} logOut={this.logOut}/>
           <div id="main">
             <Switch>
-              <SplashRoute exact path="/" component={Splash} logIn={this.logIn} loggedIn={this.state.loggedIn} />
+              <SplashRoute exact path="/" visibleSplash={this.state.visibleSplash} handleVisibleSplash={this.handleVisibleSplash} component={Splash} logIn={this.logIn} loggedIn={this.state.loggedIn} />
               <Auth path="/dashboard" component={Dashboard} searchTerm={this.state.searchTerm} loggedIn={this.state.loggedIn} />
               <Auth path="/blog/:username" loggedIn={this.state.loggedIn} component={Profile}/>
               <Auth path="/settings" loggedIn={this.state.loggedIn} component={UserSettings} />

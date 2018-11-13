@@ -3,6 +3,29 @@
 //   "Authorization": "Bearer " + (localStorage.jwt)
 // }
 
+function handleResponse(response) {
+  return response.json()
+    .then((json) => {
+      if (!response.ok) {
+        const error = Object.assign({}, json, {
+          status: response.status,
+          statusText: response.statusText,
+        });
+
+        return Promise.reject(error);
+      }
+      return json;
+    });
+}
+
+function checkError(res) {
+  if (res.ok) {
+    return res;
+  } else {
+    throw Error(`Request rejected with status ${res.status}`);
+  }
+}
+
 const Api = {
   getToken: (data) => {
     const options = {
@@ -15,10 +38,21 @@ const Api = {
       })
     }
     return fetch('http://localhost:3000/user/token', options)
+      .then(checkError)
       .then(r => r.json())
       .then(r => {
         localStorage.setItem("jwt", r.jwt)
       })
+  },
+
+  validUsername: data => {
+    return fetch(`http://localhost:3000/users/is_valid?username=${data}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(r => r.json())
   },
 
   getNotifications: () => {

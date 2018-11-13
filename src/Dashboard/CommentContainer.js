@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import Api from '../Api';
 import Comment from './Comment';
 import TinySpinner from '../Components/TinySpinner';
+import validator from 'validator';
 
 class CommentContainer extends Component {
   state = {
     comments: [],
     isLoading: true,
-    commentField: ''
+    commentField: '',
+    error: false
   }
 
   showComments = () => {
@@ -29,7 +31,19 @@ class CommentContainer extends Component {
   handleChange = e => {
     this.setState({
       commentField: e.target.value
-    });
+    }, this.validateComment);
+  }
+
+  validateComment = () => {
+    if (!validator.isLength(this.state.commentField, { min: 1, max: 140 })) {
+      this.setState({
+        error: true
+      });
+    } else {
+      this.setState({
+        error: false
+      });
+    }
   }
 
   toggleLike = (isLikedAlready, id) => {
@@ -71,9 +85,9 @@ class CommentContainer extends Component {
           <form className="card-body"
             onSubmit = {this.createComment}>
           <div className="input-group">
-            <input onChange={this.handleChange} value={this.state.commentField} className="form-control" placeholder="Leave a comment..."></input>
+            <input onChange={this.handleChange} value={this.state.commentField} className={`form-control ${this.state.error ? 'is-invalid' : ''}`} placeholder="Leave a comment..."></input>
             <div className="input-group-append">
-              <button className="btn btn-primary" type="submit" id="button-addon2"><i className="fas fa-comment"></i></button>
+              <button className="btn btn-primary" type="submit" id="button-addon2" disabled={this.state.error || this.state.commentField === ''}><i className="fas fa-comment" ></i></button>
             </div>
           </div>
         </form>

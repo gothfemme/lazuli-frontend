@@ -17,6 +17,7 @@ const Notification = (props) => {
     <p className="mb-0" style={{fontSize:".85rem"}}><span className="mr-1" style={{fontWeight:"bold"}}><Link style={{textDecoration:"none"}} to={"/blog/" + notification.notifier.username}>{notification.notifier.username}</Link></span>{actionText + ''}</p>
     <p className="mb-0"><small className="text-muted mr-2">{timeAgo(props.notification.created_at)}</small></p>
   </div>
+  {props.isNew ? <i className="bg-danger fas fa-circle"></i> : null}
 </li>
   )
 };

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { CSSTransition } from 'react-transition-group';
 import timeAgo from '../Components/TimeAgo';
 import Api from '../Api';
-import Comment from './Comment';
 import CommentContainer from './CommentContainer';
 
 class Post extends Component {

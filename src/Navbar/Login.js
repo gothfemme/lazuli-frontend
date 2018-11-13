@@ -4,7 +4,8 @@ import Api from '../Api'
 class Login extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    loginError: false
   }
 
   handleChange = (event) => {
@@ -20,14 +21,15 @@ class Login extends Component {
       password: this.state.password
     }
     Api.getToken(data)
-      .catch(function(error) {
-        return undefined
-      })
       .then(this.getCurrentUser)
+      .catch(error => {
+        this.setState({
+          loginError: true
+        });
+      })
   }
 
   getCurrentUser = () => {
-    console.log("hit getCurrentUser")
     Api.getCurrentUser()
       .catch(function(error) {
         return undefined
@@ -40,20 +42,23 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="dropdown-menu bg-dark text-white shadow-sm">
+      <div className="dropdown-menu shadow-sm">
       <form className="px-4 py-2"
         style={{width:"250px"}}
         onSubmit={this.handleSubmit} id="login-form"
         >
         <div className="form-group">
           <label htmlFor="login-email">Email address</label>
-          <input type="text" className="form-control" name="email" onChange={this.handleChange} value={this.state.email} id="login-email" placeholder="email@example.com"></input>
+          <input type="text" className={`form-control ${this.state.loginError ? 'is-invalid' : ''}`} name="email" onChange={this.handleChange} value={this.state.email} id="login-email" placeholder="email@example.com"></input>
+          {this.state.loginError && (<div className="invalid-feedback">
+                          Username or password is invalid.
+                        </div>)}
         </div>
 
 
         <div className="form-group">
           <label htmlFor="login-password">Password</label>
-          <input type="password" className="form-control" name="password" onChange={this.handleChange} value={this.state.password}></input>
+          <input type="password" className={`form-control ${this.state.loginError ? 'is-invalid' : ''}`} name="password" onChange={this.handleChange} value={this.state.password}></input>
         </div>
 
         <button className="btn btn-primary" type="submit">Login</button>
