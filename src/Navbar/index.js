@@ -14,6 +14,7 @@ class Navbar extends Component {
 
   getNotifications = () => {
     console.log('notification hit')
+    console.log(this.state.notifications)
     return this.state.notifications.map(notification => <Notification isNew={!!new Date(notification.created_at) > new Date(parseInt(this.state.lastRead))} key={notification.id} notification={notification}/>)
   }
 
@@ -35,7 +36,7 @@ class Navbar extends Component {
     const loggedIn = this.props.loggedIn
     let username
     if (loggedIn) {
-      username = JSON.parse(localStorage.user).username
+      username = this.props.currentUser.username
     }
     return (
       <nav className={this.props.location.pathname === "/" ? "navbar navbar-expand fixed-top navbar-dark" : "navbar navbar-expand fixed-top navbar-light border-bottom navbar-custom shadow-sm"} style={{height: "5rem"}}>
@@ -76,11 +77,11 @@ class Navbar extends Component {
                     ></span>
                     {localStorage.lastRead && this.state.notifications.filter(n => new Date(n.created_at) > new Date(parseInt(this.state.lastRead))).length > 0 ? (<span style={{position:"absolute", top:"1.5rem", left:"1.5rem"}} className="badge badge-pill badge-danger">{this.state.notifications.filter(n => new Date(n.created_at) > new Date(parseInt(this.state.lastRead))).length}</span>) : null}
 
-                    <div className="dropdown-menu dropdown-menu-right pb-0 shadow-sm" aria-labelledby="navbarDropdownMenuLink" style={{width:"25rem"}}>
+                    <div className="dropdown-menu dropdown-menu-right pb-0 shadow-sm" aria-labelledby="navbarDropdownMenuLink" style={{width:"25rem", height:"40rem"}}>
                         <h6 className="dropdown-header">Notifications</h6>
-                        <ul className="list-unstyled mb-0">
+                        <ul className="list-unstyled mb-0" style={{overflowY:"scroll"}}>
 
-                          {this.state.isLoading ? "No notifications." : this.getNotifications()}
+                          {this.state.isLoading && this.state.notifications.length === 0 ? "No notifications." : this.getNotifications()}
                         </ul>
                     </div>
 
@@ -89,14 +90,14 @@ class Navbar extends Component {
 
 
                   <div className="nav-item dropdown">
-                    <img className="nav-link" src={"/images/" + JSON.parse(localStorage.user).avatar} alt="user avatar" style={{objectFit: "cover",
+                    <img className="nav-link" src={this.props.currentUser.avatar} alt="user avatar" style={{objectFit: "cover",
                     width:"4rem",
                     height:"4rem",
                     borderRadius: "50%",
                     cursor: "pointer"}} id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
                     <div className="dropdown-menu dropdown-menu-right shadow-sm" aria-labelledby="navbarDropdownMenuLink">
-                      <Link to={"/blog/" + username} className="dropdown-item">Profile</Link>
-                      <a className="dropdown-item" href="#">Settings</a>
+                      <Link to={"/blog/" + this.props.currentUser.username} className="dropdown-item">Profile</Link>
+                      <Link to='/settings' className="dropdown-item">Settings</Link>
                       <div style={{cursor:"pointer"}} className="dropdown-item" onClick={() => {
                         this.props.logOut()
                       }}>Sign Out</div>

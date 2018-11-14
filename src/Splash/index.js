@@ -33,7 +33,7 @@ class Splash extends Component {
           <div id="splash-bottom" className="container-fluid pt-3 pl-4" style={{position:"absolute", display:"block", bottom:"0", marginBottom: "0px", height: `${this.props.visibleSplash ? "91%" : "25%"}`, width:"100vw", boxShadow: "rgb(0, 0, 0, .5) 1px 7px 5px -6px inset", transition:"height 500ms ease-in", overflowY:"scroll"}}>
             <div className="splash-text">
             <h1 className="display-4 text-primary" style={{fontFamily: "'Bree Serif', serif"}}>Here's the rundown.<small className="text-muted"><em></em></small></h1>
-            <p className="lead"><em>We're a social blogging platform built for creators, by creators. Tell your story. Show your latest photoshoot. Drop that mixtape. Meet new friends.</em></p>
+            <p className="lead"><em>We're a social blogging platform built for creators, by creators. Tell your story. Show your latest photoshoot. Meet new friends.</em></p>
             <div className="pr-2" style={{    display: "inline-block",
     float: "right"}}>
                 <h4 onClick={this.props.handleVisibleSplash} style={{fontWeight:"bold", cursor:"pointer", position: "relative"}}>Get started now <i className="fas fa-arrow-up text-primary ml-2" style={{transform:`rotate(${this.props.visibleSplash ? 180 : 0}deg)`,transition: "transform 500ms ease"}}></i></h4>

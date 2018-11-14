@@ -102,7 +102,7 @@ class Profile extends Component {
     return (this.state.isLoading ? <Spinner /> : (<div className="container-fluid">
         <div className="row pt-5 mb-5" >
           <div className="col-3 mt-5 text-center" style={{position:"fixed"}}>
-            <img src={"/images/" + this.state.user.avatar} alt={this.state.user.username + "avatar"} className="border mb-2" style={{objectFit: "cover",
+            <img src={this.state.user.avatar} alt={this.state.user.username + "avatar"} className="border mb-2" style={{objectFit: "cover",
             width:"10rem",
             height:"10rem",
             borderRadius: "50%"}}
@@ -116,7 +116,7 @@ class Profile extends Component {
             <div className="text-center col py-0" style={{marginBottom:"0"}}><p className="mb-0"><span className="font-weight-bold mr-2">{this.state.user.follow_count}</span>Followers</p>
           </div>
           </div>
-          {this.followButton()}
+          {this.state.current_user.username === this.state.user.username ? null : this.followButton()}
           </div>
           <div className="col-7 offset-3">
             {this.getPosts()}
@@ -134,7 +134,7 @@ class Profile extends Component {
             user: obj.user,
             posts: obj.posts,
             isLoading: false,
-            isFollowing: !!obj.user.follower_ids.find(id => id === parseInt(JSON.parse(localStorage.user).id))
+            isFollowing: !!obj.user.follower_ids.find(id => id === parseInt(obj.current_user.id))
           });
         })
     }
@@ -148,7 +148,7 @@ class Profile extends Component {
           user: obj.user,
           posts: obj.posts,
           isLoading: false,
-          isFollowing: !!obj.user.follower_ids.find(id => id === parseInt(JSON.parse(localStorage.user).id))
+          isFollowing: !!obj.user.follower_ids.find(id => id === parseInt(obj.current_user.id))
         });
       })
   }

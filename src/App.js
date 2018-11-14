@@ -6,6 +6,7 @@ import Dashboard from './Dashboard';
 import Profile from './Profile';
 import Navbar from './Navbar';
 import UserSettings from './UserSettings';
+import Api from './Api';
 import config from './firebaseconfig';
 import { Auth, SplashRoute } from './Auth'
 
@@ -21,9 +22,23 @@ const NoMatch = () => {
 
 class App extends Component {
   state = {
-    loggedIn: !!(localStorage.jwt && localStorage.user),
+    loggedIn: !!(localStorage.jwt),
     searchTerm: "",
-    visibleSplash: false
+    visibleSplash: false,
+    currentUser: {}
+  }
+
+  setCurrentUser = user => {
+    this.setState({
+      currentUser: user
+    });
+  }
+
+  componentDidMount() {
+    if (localStorage.jwt) {
+      Api.getCurrentUser()
+        .then(this.setCurrentUser)
+    }
   }
 
   handleVisibleSplash = e => {
@@ -32,16 +47,18 @@ class App extends Component {
     });
   }
 
-  logIn = () => {
+  logIn = user => {
     this.setState({
-      loggedIn: true
+      loggedIn: true,
+      currentUser: user
     });
   }
 
   logOut = () => {
     localStorage.clear("jwt", "user")
     this.setState({
-      loggedIn: false
+      loggedIn: false,
+      currentUser: {}
     });
   }
 
@@ -55,13 +72,13 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navbar handleVisibleSplash={this.handleVisibleSplash} loggedIn={this.state.loggedIn} searchTerm={this.state.searchTerm} handleSearch={this.handleSearch} logIn={this.logIn} logOut={this.logOut}/>
+          <Navbar currentUser={this.state.currentUser} setCurrentUser={this.setCurrentUser} handleVisibleSplash={this.handleVisibleSplash} loggedIn={this.state.loggedIn} searchTerm={this.state.searchTerm} handleSearch={this.handleSearch} logIn={this.logIn} logOut={this.logOut}/>
           <div id="main">
             <Switch>
               <SplashRoute exact path="/" visibleSplash={this.state.visibleSplash} handleVisibleSplash={this.handleVisibleSplash} component={Splash} logIn={this.logIn} loggedIn={this.state.loggedIn} />
               <Auth path="/dashboard" component={Dashboard} searchTerm={this.state.searchTerm} loggedIn={this.state.loggedIn} />
               <Auth path="/blog/:username" loggedIn={this.state.loggedIn} component={Profile}/>
-              <Auth path="/settings" loggedIn={this.state.loggedIn} component={UserSettings} />
+              <Auth path="/settings" setCurrentUser={this.setCurrentUser} loggedIn={this.state.loggedIn} component={UserSettings} />
               <Route component={NoMatch} />
             </Switch>
           </div>

@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 
 const Notification = (props) => {
   const notification = props.notification.notifiable
-  const actionText = (notification.type === "commented") ? `${notification.type} on your post` : `${notification.type} your post`
+  const actionText = (notification.type === "commented") ? `${notification.type} on your post "${notification.post.title}"` : `${notification.type} your post "${notification.post.title}"`
   return (
     <li className="media px-3 py-3 border-top">
-  <Link to={"/blog/" + notification.notifier.username}><img className="mr-3" src={"/images/" + notification.notifier.avatar} alt="user avatar"
+  <Link to={"/blog/" + notification.notifier.username}><img className="mr-3" src={notification.notifier.avatar} alt="user avatar"
   style={{objectFit: "cover",
     width:"2rem",
     height:"2rem",

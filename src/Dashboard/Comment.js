@@ -4,7 +4,7 @@ import timeAgo from '../Components/TimeAgo';
 
 const Comment = (props) => (
   <li className="media px-3 py-3 border-bottom">
-  <Link to={"/blog/" + props.comment.commenter.username}><img className="mr-3" src={"/images/" + props.comment.commenter.avatar} alt="user avatar"
+  <Link to={"/blog/" + props.comment.commenter.username}><img className="mr-3" src={props.comment.commenter.avatar} alt="user avatar"
   style={{objectFit: "cover",
     width:"2rem",
     height:"2rem",

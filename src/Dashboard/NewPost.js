@@ -43,14 +43,15 @@ class NewPost extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const data = { ...this.state.post, content: sanitizeHtml(this.state.post.content), user_id: JSON.parse(localStorage.user).id, image: this.state.imageURL }
+    const data = { ...this.state.post, content: sanitizeHtml(this.state.post.content), image: this.state.imageURL }
     this.props.handleSubmit(data)
     this.setState({
       post: {
         title: "",
         image: "",
         content: ""
-      }
+      },
+      imageURL: ""
     })
   }
 

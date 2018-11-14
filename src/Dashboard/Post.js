@@ -9,7 +9,7 @@ class Post extends Component {
   state = {
     likeCount: this.props.post.original_post.like_count,
     reblogCount: this.props.post.original_post.reblog_count,
-    rebloggedByMe: !!(this.props.post.is_reblog && this.props.post.user.username === JSON.parse(localStorage.user).username),
+    rebloggedByMe: !!(this.props.post.is_reblog && this.props.post.user.username === this.props.currentUser.username),
     commentsToggle: false
   }
 
@@ -69,7 +69,7 @@ class Post extends Component {
         <div className="col-2 pr-0">
 
           <div className="nav flex-column float-right text-center mt-2 text-muted" style={{fontSize: "1.75rem"}}>
-              <Link to={"/blog/" + this.props.post.user.username}><img src={"/images/" + this.props.post.user.avatar}
+              <Link to={"/blog/" + this.props.post.user.username}><img src={this.props.post.user.avatar}
               className="nav-item border" alt={this.props.post.username + "avatar"} style={{objectFit: "cover",
               width:"4rem",
               height:"4rem",
@@ -90,7 +90,6 @@ class Post extends Component {
                 {this.props.isAuthor && <div className="dropdown" style={{float:"right"}}>
                   <span data-toggle="dropdown" style={{cursor:"pointer"}}><i className="fas fa-ellipsis-h"></i></span>
                   <div className="dropdown-menu dropdown-menu-right">
-                    <div className="dropdown-item" style={{cursor:"pointer"}} >Edit</div>
                     <div onClick={() => this.props.deletePost(this.props.post)} className="dropdown-item" style={{cursor:"pointer"}} >Delete</div>
 
                   </div>

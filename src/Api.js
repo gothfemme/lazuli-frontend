@@ -3,6 +3,8 @@
 //   "Authorization": "Bearer " + (localStorage.jwt)
 // }
 
+const BASEURL = 'http://10.39.108.59:3000'
+
 function handleResponse(response) {
   return response.json()
     .then((json) => {
@@ -37,7 +39,7 @@ const Api = {
         auth: data
       })
     }
-    return fetch('http://localhost:3000/user/token', options)
+    return fetch(`${BASEURL}/user/token`, options)
       .then(checkError)
       .then(r => r.json())
       .then(r => {
@@ -46,7 +48,7 @@ const Api = {
   },
 
   validUsername: data => {
-    return fetch(`http://localhost:3000/users/is_valid?username=${data}`, {
+    return fetch(`${BASEURL}/users/is_valid?username=${data}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
@@ -56,7 +58,7 @@ const Api = {
   },
 
   getNotifications: () => {
-    return fetch('http://localhost:3000/notifications', {
+    return fetch(`${BASEURL}/notifications`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -74,15 +76,12 @@ const Api = {
         "Authorization": "Bearer " + (localStorage.jwt)
       }
     }
-    return fetch('http://localhost:3000/users/current', options)
+    return fetch(`${BASEURL}/users/current`, options)
       .then(r => r.json())
-      .then(user => {
-        localStorage.setItem("user", JSON.stringify(user))
-      })
   },
 
   deletePost: data => {
-    return fetch(`http://localhost:3000/posts/${data}`, {
+    return fetch(`${BASEURL}/posts/${data}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -92,7 +91,7 @@ const Api = {
   },
 
   createComment: data => {
-    return fetch(`http://localhost:3000/posts/${data.post_id}/comments`, {
+    return fetch(`${BASEURL}/posts/${data.post_id}/comments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +103,7 @@ const Api = {
   },
 
   getPosts: () => {
-    return fetch('http://localhost:3000/timeline', {
+    return fetch(`${BASEURL}/timeline`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -114,8 +113,20 @@ const Api = {
       .then(r => r.json())
   },
 
+  patchUser: (data) => {
+    return fetch(`${BASEURL}/settings`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + (localStorage.jwt)
+        },
+        body: JSON.stringify(data)
+      })
+      .then(r => r.json())
+  },
+
   getComments: data => {
-    return fetch(`http://localhost:3000/posts/${data}/comments`, {
+    return fetch(`${BASEURL}/posts/${data}/comments`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +137,7 @@ const Api = {
   },
 
   commentLike: (postId, commentId) => {
-    return fetch(`http://localhost:3000/posts/${postId}/comments/${commentId}/like`, {
+    return fetch(`${BASEURL}/posts/${postId}/comments/${commentId}/like`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -137,7 +148,7 @@ const Api = {
   },
 
   commentUnlike: (postId, commentId) => {
-    return fetch(`http://localhost:3000/posts/${postId}/comments/${commentId}/unlike`, {
+    return fetch(`${BASEURL}/posts/${postId}/comments/${commentId}/unlike`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -147,7 +158,7 @@ const Api = {
   },
 
   searchSite: (searchTerm) => {
-    return fetch(`http://localhost:3000/posts?search=${searchTerm}`, {
+    return fetch(`${BASEURL}/posts?search=${searchTerm}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -158,7 +169,7 @@ const Api = {
   },
 
   searchUsers: (searchTerm) => {
-    return fetch(`http://localhost:3000/users?search=${searchTerm}`, {
+    return fetch(`${BASEURL}/users?search=${searchTerm}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -169,7 +180,7 @@ const Api = {
   },
 
   createPost: (data) => {
-    return fetch('http://localhost:3000/posts', {
+    return fetch(`${BASEURL}/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -181,7 +192,7 @@ const Api = {
   },
 
   createUser: (data) => {
-    return fetch('http://localhost:3000/users', {
+    return fetch(`${BASEURL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -191,7 +202,7 @@ const Api = {
   },
 
   follow: (data) => {
-    return fetch(`http://localhost:3000/users/${data}/follow`, {
+    return fetch(`${BASEURL}/users/${data}/follow`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -201,7 +212,7 @@ const Api = {
   },
 
   unfollow: (data) => {
-    return fetch(`http://localhost:3000/users/${data}/unfollow`, {
+    return fetch(`${BASEURL}/users/${data}/unfollow`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -211,7 +222,7 @@ const Api = {
   },
 
   reblog: (data) => {
-    return fetch('http://localhost:3000/reblogs', {
+    return fetch(`${BASEURL}/reblogs`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -222,7 +233,7 @@ const Api = {
   },
 
   unreblog: (data) => {
-    return fetch(`http://localhost:3000/reblogs/delete`, {
+    return fetch(`${BASEURL}/reblogs/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -233,7 +244,7 @@ const Api = {
   },
 
   like: (data) => {
-    return fetch('http://localhost:3000/likes', {
+    return fetch(`${BASEURL}/likes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -244,7 +255,7 @@ const Api = {
   },
 
   unlike: (data) => {
-    return fetch(`http://localhost:3000/likes/delete`, {
+    return fetch(`${BASEURL}/likes/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -255,7 +266,7 @@ const Api = {
   },
 
   getUser: (data) => {
-    return fetch(`http://localhost:3000/users/${data}`, {
+    return fetch(`${BASEURL}/users/${data}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

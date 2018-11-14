@@ -39,18 +39,18 @@ class DashSidebar extends Component {
   }
 
   render() {
-    let noResults = !!(!this.state.userSearchResults.length && this.state.isSearching)
-    return (
-      <div className="col-3 offset-1 sidebar border-left px-0">
+      let noResults = !!(!this.state.userSearchResults.length && this.state.isSearching)
+      return (
+          <div className="col-3 offset-1 sidebar border-left px-0">
         <div className="border-bottom">
           <div className="row px-3">
             <div className="text-center col border-right py-3" style={{marginBottom:"0"}}><p className="mb-0">Following</p><h4 className="mb-0">{this.props.user.following_count}</h4></div>
             <div className="text-center col border-right py-3" style={{marginBottom:"0"}}><p className="mb-0">Followers</p><h4 className="mb-0">{this.props.user.follow_count}</h4></div>
           </div>
         </div>
-        <div className="border-bottom px-3 py-3 text-center">
-          <h5 className="my-auto"><i className="fas fa-heart pr-3"></i>Liked posts</h5>
-        </div>
+        {/* // <div className="border-bottom px-3 py-3 text-center">
+        //   <h5 className="my-auto"><i className="fas fa-heart pr-3"></i>Liked posts</h5>
+        // </div> */}
         <div>
           <form onSubmit={this.handleSubmit} className="px-3 py-3" id="user-search">
             <label htmlFor="find-user">Find Users</label>
@@ -74,13 +74,13 @@ class DashSidebar extends Component {
             top: "-2.2rem"}}></i>}
 
         </form>
-          <div id="user-search-results">
+          <div id="user-search-results" className="border-bottom" style={{height:"50vh"}}>
 
-              {noResults ? this.noUsersFound() : (<ul className="list-group list-group-flush border-top">{this.getUserList()}</ul>)}
+              {noResults ? this.noUsersFound() : (<ul className="list-unstyled border-top" style={{overflow:"auto", height:"100%", paddingBottom:"5rem"}}>{this.getUserList()}</ul>)}
 
           </div>
-        </div>
-      </div>
+        </div> <
+      /div>
     );
   }
 

@@ -13,7 +13,6 @@ class CommentContainer extends Component {
   }
 
   showComments = () => {
-    console.log(this.state.comments)
     return this.state.comments.map(comment => (
       <Comment toggleLike={this.toggleLike} likedByMe={comment.likes.includes(this.props.currentUser.id)} key={comment.id} comment={comment} />))
   }

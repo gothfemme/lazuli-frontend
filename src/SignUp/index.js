@@ -88,8 +88,10 @@ class SignUp extends Component {
           .catch(function(error) {
             return undefined
           })
-          .then(() => Api.getCurrentUser(tokenData))
-          .then(this.props.logIn)
+          .then(() => {
+            Api.getCurrentUser()
+              .then(user => this.props.logIn(user))
+          })
       })
   }
 
