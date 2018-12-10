@@ -1,44 +1,45 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Laz•u•li
+> A user-driven social media and micro-blogging platform.
 
-## Available Scripts
+This is a social media app, built on React for the frontend, and Rails as an API backend. You can create an account, with passwords saved in an encrypted form on the database due to the bcrypt gem, and client-to-server auth using JWT.
 
-In the project directory, you can run:
+This is the frontend, the backend can be found [here](https://github.com/gothfemme/lazuli-backend).
 
-### `npm start`
+## Development Setup
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Frontend
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+OS X & Linux:
 
-### `npm test`
+```sh
+npm install
+npm start
+```
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Backend
 
-### `npm run build`
+OS X & Linux:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```sh
+bundle install
+rails db:create
+rails db:migrate
+rails s
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## Usage example
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This is just a pretty straight forward social media website, similar to Tumblr. Create an account, post, follow other users, reblog, comment or like their posts. 
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Meta
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Kat Michaela – [@gothfemme](https://twitter.com/gothfemme) – k@gothfem.me - [github](https://github.com/gothfemme/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Contributing
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Fork it (<https://github.com/gothfemme/lazuli-frontend/fork>)
+2. Create your feature branch (`git checkout -b feature/fooBar`)
+3. Commit your changes (`git commit -am 'Add some fooBar'`)
+4. Push to the branch (`git push origin feature/fooBar`)
+5. Create a new Pull Request
