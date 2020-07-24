@@ -1,6 +1,8 @@
 # Laz•u•li
 > A user-driven social media and micro-blogging platform.
 
+[Video Demo](https://www.youtube.com/watch?v=AGQdlsAipgw)
+
 This is a social media app, built on React for the frontend, and Rails as an API backend. You can create an account, with passwords saved in an encrypted form on the database due to the bcrypt gem, and client-to-server auth using JWT.
 
 This is the frontend, the backend can be found [here](https://github.com/gothfemme/lazuli-backend).
