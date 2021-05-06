@@ -15,7 +15,7 @@
     "react-scripts": "2.1.1",
     "react-tooltip": "^3.9.0",
     "react-transition-group": "^2.5.0",
-    "sanitize-html": "^1.19.1",
+    "sanitize-html": "^2.3.2",
     "validator": "^10.9.0"
   },
   "scripts": {
